@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/holeNumberTextView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        tools:text="Hole 18:"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scoreTextView"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/holeNumberTextView"
+        android:layout_toEndOf="@+id/holeNumberTextView"
+        android:layout_marginLeft="40dp"
+        android:textColor="@color/colorPrimaryDark"
+        tools:text="10"
+        android:textSize="30dp"/>
+
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="+"
+        android:id="@+id/addButton"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="20dp"
+        android:background="@drawable/button_round"
+        android:layout_marginRight="10dp"/>
+
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="-"
+        android:id="@+id/subtractButton"
+        android:textSize="35dp"
+        android:background="@drawable/button_round"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/addButton"
+        android:layout_toStartOf="@+id/addButton"
+        android:layout_marginRight="10dp"/>
+</RelativeLayout>
