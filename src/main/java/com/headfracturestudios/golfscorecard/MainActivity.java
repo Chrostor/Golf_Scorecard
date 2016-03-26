@@ -1,5 +1,7 @@
 package com.headfracturestudios.golfscorecard;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,31 +20,54 @@ import org.w3c.dom.Text;
 public class MainActivity extends AppCompatActivity {
 
 
-
+//    private static final String KEY_HOLE_NUMBER = "KEY_HOLE_NUMBER";
+//    private static final String KEY_SCORE = "KEY_SCORE";
+    private static final String PREFS_FILE = "com.headfracturestudios.goldscorecard.preferences";
+    private static final String KEY_STROKECOUNT = "KEY_STROKECOUNT";
     private ListView mListView;
-
+    private Hole[] mHoles = new Hole[18];
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
+    private HoleAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Hole[] mHoles = new Hole[18];
+        mSharedPreferences = getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
+        mEditor = mSharedPreferences.edit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        int strokes = 0;
         mListView = (ListView) findViewById(R.id.holesListView);
         for (int i = 0; i < mHoles.length; i++) {
-            mHoles[i] = new Hole();
-            mHoles[i].setHoleNumber(i + 1);
-            mHoles[i].setScore(0);
-        }
-        HoleAdapter adapter = new HoleAdapter(this, mHoles);
+            strokes = mSharedPreferences.getInt(KEY_STROKECOUNT + i, 0);
+            mHoles[i] = new Hole(i+1, strokes);
 
-        mListView.setAdapter(adapter);
+
+
+        }
+        mAdapter = new HoleAdapter(this, mHoles);
+
+        mListView.setAdapter(mAdapter);
         mListView.setEmptyView(null);
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        int strokes = 0;
+        for (int i = 0; i<mHoles.length; i++){
+            strokes = mSharedPreferences.getInt(KEY_STROKECOUNT + i, strokes);
+            mEditor.putInt(KEY_STROKECOUNT + i, mHoles[i].getScore());
+        }
+        mEditor.apply();
+    }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,19 +84,18 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        Hole[] mHoles = new Hole[18];
-        mListView = (ListView) findViewById(R.id.holesListView);
-        for (int i = 0; i < mHoles.length; i++) {
-            mHoles[i] = new Hole();
-            mHoles[i].setHoleNumber(i + 1);
-            mHoles[i].setScore(0);
-        }
-        HoleAdapter adapter = new HoleAdapter(this, mHoles);
 
-        mListView.setAdapter(adapter);
-        mListView.setEmptyView(null);
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            mEditor.clear();
+            mEditor.apply();
+
+            for (Hole hole: mHoles){
+                hole.setScore(0);
+            }
+
+            mAdapter.notifyDataSetChanged();
             return true;
         }
 
