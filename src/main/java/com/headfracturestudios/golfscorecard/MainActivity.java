@@ -8,15 +8,49 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
+
+
+
+//    private TextView mHoleNumber;
+//    private TextView mScore;
+//    private Button mSubButton;
+//    private Button mAddButton;
+    private ListView mListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Hole[] mHoles = new Hole[18];
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+//        mHoleNumber = (TextView) findViewById(R.id.holeNumberTextView);
+//        mScore = (TextView) findViewById(R.id.scoreTextView);
+//        mSubButton = (Button) findViewById(R.id.subtractButton);
+//        mAddButton = (Button) findViewById(R.id.addButton);
+        mListView = (ListView) findViewById(R.id.holesListView);
+        for(int i = 0; i < mHoles.length ; i++){
+            mHoles[i] = new Hole();
+            mHoles[i].setHoleNumber(i + 1);
+            mHoles[i].setScore(0);
+        }
+        HoleAdapter adapter = new HoleAdapter(this, mHoles);
+
+        mListView.setAdapter(adapter);
+        mListView.setEmptyView(null);
+
+
+
+
 
 
     }
