@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -18,10 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//    private TextView mHoleNumber;
-//    private TextView mScore;
-//    private Button mSubButton;
-//    private Button mAddButton;
     private ListView mListView;
 
 
@@ -33,12 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        mHoleNumber = (TextView) findViewById(R.id.holeNumberTextView);
-//        mScore = (TextView) findViewById(R.id.scoreTextView);
-//        mSubButton = (Button) findViewById(R.id.subtractButton);
-//        mAddButton = (Button) findViewById(R.id.addButton);
+
         mListView = (ListView) findViewById(R.id.holesListView);
-        for(int i = 0; i < mHoles.length ; i++){
+        for (int i = 0; i < mHoles.length; i++) {
             mHoles[i] = new Hole();
             mHoles[i].setHoleNumber(i + 1);
             mHoles[i].setScore(0);
@@ -48,17 +42,13 @@ public class MainActivity extends AppCompatActivity {
         mListView.setAdapter(adapter);
         mListView.setEmptyView(null);
 
-
-
-
-
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
 
@@ -69,6 +59,17 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        Hole[] mHoles = new Hole[18];
+        mListView = (ListView) findViewById(R.id.holesListView);
+        for (int i = 0; i < mHoles.length; i++) {
+            mHoles[i] = new Hole();
+            mHoles[i].setHoleNumber(i + 1);
+            mHoles[i].setScore(0);
+        }
+        HoleAdapter adapter = new HoleAdapter(this, mHoles);
+
+        mListView.setAdapter(adapter);
+        mListView.setEmptyView(null);
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
