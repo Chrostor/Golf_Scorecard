@@ -1,5 +1,6 @@
 package com.headfracturestudios.golfscorecard;
 
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ListActivity {
 
 
 //    private static final String KEY_HOLE_NUMBER = "KEY_HOLE_NUMBER";
@@ -37,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
         mSharedPreferences = getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.drop_menu);
+        //setSupportActionBar(toolbar);
         int strokes = 0;
-        mListView = (ListView) findViewById(R.id.holesListView);
+        mListView = (ListView) findViewById(R.id.drop_menu);
         for (int i = 0; i < mHoles.length; i++) {
             strokes = mSharedPreferences.getInt(KEY_STROKECOUNT + i, 0);
             mHoles[i] = new Hole(i+1, strokes);
@@ -49,18 +50,19 @@ public class MainActivity extends AppCompatActivity {
 
         }
         mAdapter = new HoleAdapter(this, mHoles);
-
-        mListView.setAdapter(mAdapter);
-        mListView.setEmptyView(null);
+        setListAdapter(mAdapter);
+//        mListView.setAdapter(mAdapter);
+//        mListView.setEmptyView(null);
+        //setActionBar(toolbar);
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        int strokes = 0;
+
         for (int i = 0; i<mHoles.length; i++){
-            strokes = mSharedPreferences.getInt(KEY_STROKECOUNT + i, strokes);
+
             mEditor.putInt(KEY_STROKECOUNT + i, mHoles[i].getScore());
         }
         mEditor.apply();
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu. menu_main, menu);
 
         return true;
     }
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.drop_menu) {
             mEditor.clear();
             mEditor.apply();
 
